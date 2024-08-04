@@ -57,16 +57,18 @@ public class MainActivity extends AppCompatActivity {
             case "C":
                 input=null;
                 output=null;
+                newOutput=null;
                 outputText.setText("");
                 break;
 
             case "^":
+                solve();
                 input+="^";
-               solve();
                break;
             case "*":
-                input+="*";
                 solve();
+                input+="*";
+
                 break;
 
             case "=":
@@ -92,7 +94,87 @@ public class MainActivity extends AppCompatActivity {
         inputText.setText(input);
     }
     private void solve(){
+        if (input.split("//+").length==2) {
+            String numbers [] = input.split( "\\+");
+            try {
+                double d = Double.parseDouble(numbers[0]) + Double.parseDouble(numbers[1]);
+                 output = Double.toString(d);
+                 newOutput = cutDecimal(output);
+                 outputText.setText(newOutput);
+                 input = d +"";
+            }catch (Exception e){
+                outputText.setError(e.getMessage().toString());
+            }
+            }
+        if (input.split("//*").length==2) {
+            String numbers[] = input.split("\\*");
+            try {
+                double d = Double.parseDouble(numbers[0]) * Double.parseDouble(numbers[1]);
+                output = Double.toString(d);
+                newOutput = cutDecimal(output);
+                outputText.setText(newOutput);
+                input = d + "";
+            } catch (Exception e) {
+                outputText.setError(e.getMessage().toString());
+            }
 
+        if (input.split("\\/").length==2){
+            String numbers[] = input.split("\\/");
+            try {
+                double d = Double.parseDouble(numbers[0]) / Double.parseDouble(numbers[1]);
+                output = Double.toString(d);
+                newOutput = cutDecimal(output);
+                outputText.setText(newOutput);
+                input = d +"";
+            }catch (Exception e){
+                outputText.setError(e.getMessage().toString());
+            }
+        }
+        if (input.split("//^").length==2) {
+            String numbers [] = input.split("\\^");
+            try {
+                double d = Math.pow(Double.parseDouble(numbers[0]) ,Double.parseDouble(numbers[1]));
+                output = Double.toString(d);
+                newOutput = cutDecimal(output);
+                outputText.setText(newOutput);
+                input = d +"";
+            }catch (Exception e){
+                outputText.setError(e.getMessage().toString());
+            }
+        }
+        if (input.split("//-").length==2) {
+            String numbers [] = input.split("\\-");
+            try {
+                if (Double.parseDouble([0])) < Double.parseDouble(numbers[1])){
+                    double d = Double.parseDouble(numbers[1]) - Double.parseDouble(numbers[0]);
+                    output = Double.toString(d);
+                    newOutput = cutDecimal(output);
+                    outputText.setText("-" + newOutput);
+                    input = d + "";
+                }
+                else{
+                    double d = Double.parseDouble(numbers[0]) - Double.parseDouble(numbers[1]);
+                    output = Double.toString(d);
+                    newOutput = cutDecimal(output);
+                    outputText.setText(newOutput);
+                    input = d + "";
+                }
+            }catch (Exception e){
+                outputText.setError(e.getMessage().toString());
+            }
+        }
+        }
+private String cutDecimal(String number){
+        String n [] = number.split("\\.");
+        if (n.length >1){
+            if (n[1].equals("0")){
+                number = n[0];
+
+
+            }
+        }
+        return number;
+    }
 
     }
-}
+
